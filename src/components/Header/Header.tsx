@@ -61,7 +61,9 @@ const Header = () => {
             >
               {navigationLinks.map((page) => (
                 <MenuItem key={page.description} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page.description}</Typography>
+                  <Link style={{ textDecoration: 'none', color: 'blue' }} to={page.link}>
+                    {page.description}
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>

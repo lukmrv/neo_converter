@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import { Footer } from 'components/Footer/Footer';
 import { Header } from 'components/Header/Header';
-import { Outlet } from 'react-router';
+import { Container } from '@mui/system';
 
-const Layout = () => {
+const Layout = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Header />
-      <Outlet />
+      <Container sx={{ display: 'flex', justifyContent: 'center', paddingLeft: 0 }}>
+        {children}
+      </Container>
       <Footer />
     </>
   );

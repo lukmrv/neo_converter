@@ -2,46 +2,76 @@ import React, { ElementType } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { styled } from '@mui/system';
+// Not the best way to use module augmentation
+// in customTheme.ts we augment MUI Theme with CustomThemeOverrides, and here treat it as Theme
+import { styled, CustomThemeOverrides as Theme } from '@mui/system';
 import Button, { ButtonTypeMap } from '@mui/material/Button';
-import { Theme } from '@mui/system/createTheme';
 
 // eslint-disable-next-line no-restricted-imports
-import { Element, ElementProps } from 'components/Element/Element';
+import {
+  PolymorphicElement,
+  PolymorphicElementProps,
+} from 'components/PolymorphicElement/PolymorphicElement';
 
-// shared StyledButton and StyledButtonLink styles
+// shared styles
+// when passing theme to buttonStyles, we cast its type to
+// Theme, but it's actually CustomThemeOverrides
 const buttonStyles = (theme: Theme) => ({
   padding: theme.spacing(4, 6),
-  border: '10px solid red',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.primary.contrastText,
+  fontSize: theme.typography.button.fontSize,
+  fontWeight: theme.typography.button.fontWeight,
 });
-// // // // // // // // // // // //
-// TODO - pass it to StyledButtonLink for consistent styles
+
+// ===============================
 // Styled MUI Button
-// // // // // // // // // // // //
+//
 export const StyledButton = styled(
   // eslint-disable-next-line react/display-name
   ({ children, ...rest }: ButtonTypeMap['props']) => <Button {...rest}>{children}</Button>
-)(({ theme }) => buttonStyles(theme));
-// // // // // // // // // // // //
+)(({ theme }) => buttonStyles(theme as Theme));
+
+// ===============================
 // React Router Link which looks like MUI Button
-// // // // // // // // // // // //
+//
 export const StyledButtonLink = styled(
   ({ children, ...rest }: { to: string } & ButtonTypeMap['props']) => (
     <Button component={Link} {...rest}>
       {children}
     </Button>
   )
-)(({ theme }) => buttonStyles(theme));
-// // // // // // // // // // // //
+)(({ theme }) => buttonStyles(theme as Theme));
+
+// ===============================
+// Base element for different components, which will have muit theme applied
+//
+export const BaseElement = styled(
+  ({
+    component,
+    children,
+    ...rest
+  }: { component: ElementType; href?: string } & ButtonTypeMap['props']) => (
+    <Button component={component} {...rest}>
+      {children}
+    </Button>
+  )
+  // THEME CUSTOMIZATION
+)(({ theme }) => buttonStyles(theme as Theme));
+
+// ===============================
 // Styled Polymorphic Component, which could be passed html tag
 // name as well as generic MUI props
-// // // // // // // // // // // //
-export const StyledElement = styled(
+//
+// FUN, but overcomplicated and not necessary with MUI
+//
+export const StyledPolymorphicElement = styled(
   // COMPONENT 'proxy'
-  <T extends ElementType>({ tag, children, ...rest }: ElementProps<T>) => (
-    <Element tag={tag} {...rest}>
+  <T extends ElementType>({ tag, children, ...rest }: PolymorphicElementProps<T>) => (
+    <PolymorphicElement tag={tag} {...rest}>
       {children}
-    </Element>
+    </PolymorphicElement>
   ),
   // THEME CONFIGURATION
   {
@@ -58,13 +88,30 @@ export const StyledElement = styled(
   }
   // THEME CUSTOMIZATION
 )(({ theme }) => ({
+  width: '100%',
   textDecoration: 'none',
   cursor: 'pointer',
   border: 'none',
+  display: 'flex',
+  justifyContent: 'center',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: theme.palette.primary.dark,
+  backgroundColor: theme.palette.primary.main,
   color: theme.palette.primary.contrastText,
   padding: theme.spacing(1, 2),
   fontSize: theme.typography.button.fontSize,
   fontWeight: theme.typography.button.fontWeight,
+  transition: theme.transitions.create(['background-color', 'box-shadow', 'border'], {
+    duration: theme.transitions.duration.short,
+  }),
+  '&:hover': {
+    backgroundColor: theme.palette.primary.dark,
+  },
+  '&:focus': {
+    outline: 'none',
+    backgroundColor: theme.palette.primary.dark,
+  },
+  '&:active': {
+    outline: 'none',
+    backgroundColor: theme.palette.primary.dark,
+  },
 }));

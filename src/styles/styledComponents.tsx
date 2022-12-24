@@ -2,9 +2,7 @@ import React, { ElementType } from 'react';
 
 import { Link } from 'react-router-dom';
 
-// Not the best way to use module augmentation
-// in customTheme.ts we augment MUI Theme with CustomThemeOverrides, and here treat it as Theme
-import { styled, CustomThemeOverrides as Theme } from '@mui/system';
+import { styled, Theme } from '@mui/material';
 import Button, { ButtonTypeMap } from '@mui/material/Button';
 
 // eslint-disable-next-line no-restricted-imports
@@ -31,7 +29,7 @@ const buttonStyles = (theme: Theme) => ({
 export const StyledButton = styled(
   // eslint-disable-next-line react/display-name
   ({ children, ...rest }: ButtonTypeMap['props']) => <Button {...rest}>{children}</Button>
-)(({ theme }) => buttonStyles(theme as Theme));
+)(({ theme }) => buttonStyles(theme));
 
 // ===============================
 // React Router Link which looks like MUI Button
@@ -42,7 +40,7 @@ export const StyledButtonLink = styled(
       {children}
     </Button>
   )
-)(({ theme }) => buttonStyles(theme as Theme));
+)(({ theme }) => buttonStyles(theme));
 
 // ===============================
 // Base element for different components, which will have muit theme applied
@@ -58,7 +56,7 @@ export const BaseElement = styled(
     </Button>
   )
   // THEME CUSTOMIZATION
-)(({ theme }) => buttonStyles(theme as Theme));
+)(({ theme }) => buttonStyles(theme));
 
 // ===============================
 // Styled Polymorphic Component, which could be passed html tag

@@ -1,24 +1,24 @@
-import { Theme, createTheme } from '@mui/system';
+import { createTheme, ThemeOptions } from '@mui/material';
 
-declare module '@mui/system' {
-  interface CustomThemeOverrides extends Theme {
+declare module '@mui/material' {
+  interface CustomThemeOverrides extends ThemeOptions {
     typography: {
-      fontFamily: 'Roboto';
+      fontFamily: string;
       h1: {
-        fontSize: '2.5rem';
-        fontWeight: 500;
+        fontSize: string;
+        fontWeight: number;
       };
       h2: {
-        fontSize: '2rem';
-        fontWeight: 500;
+        fontSize: string;
+        fontWeight: number;
       };
       h3: {
-        fontSize: '1.75rem';
-        fontWeight: 500;
+        fontSize: string;
+        fontWeight: number;
       };
       button: {
-        fontSize: '0.875rem';
-        fontWeight: 500;
+        fontSize: string;
+        fontWeight: number;
       };
     };
   }

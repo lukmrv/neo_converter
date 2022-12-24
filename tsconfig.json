@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "jsx": "react",
     /* LANGUAGE COMPILATION OPTIONS */
     "target": "ES2020",
@@ -8,12 +8,10 @@
     "module": "Node16",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
+
+    "types": ["node"],
     "paths": {
-      "@pages": ["./src/pages"],
-      "@assets": ["./src/assets"],
-      "@components": ["./src/components"],
-      "@utils": ["./src/utils"],
-      "@providers": ["./src/providers"]
+      "": ["./src/*"]
     },
 
     /* EMIT RULES */
@@ -52,7 +50,7 @@
     "skipLibCheck": true,
     "useDefineForClassFields": true
   },
-  "include": ["src/*"],
-  "exclude": ["node_modules"],
+
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

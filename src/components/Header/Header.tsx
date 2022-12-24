@@ -1,17 +1,18 @@
+import React, { useState, MouseEvent } from 'react';
+
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import React, { useState, MouseEvent } from 'react';
+import { Link } from 'react-router-dom';
 
-const pages = ['Converter', 'History', 'Charts'];
+import { navigationLinks } from 'utils/consts';
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -58,23 +59,26 @@ const Header = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              {navigationLinks.map((page) => (
+                <MenuItem key={page.description} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page.description}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
+            {navigationLinks.map((page) => (
+              <Typography
+                component="div"
+                key={page.description}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
-              </Button>
+                <Link style={{ textDecoration: 'none', color: 'blue' }} to={page.link}>
+                  {page.description}
+                </Link>
+              </Typography>
             ))}
           </Box>
         </Toolbar>

@@ -10,7 +10,7 @@ import { StyledButton, StyledButtonLink } from 'styles/styledComponents';
 import { Input } from 'components/Input/Input';
 import { excgangeSchema, ExcgangeSchema } from 'utils/validations';
 import { appRoutes } from 'utils/consts';
-import { useGetCurrenciesList, useGetCurrencyRates } from 'api/rates';
+import { useGetCurrenciesList } from 'api/rates';
 
 const defaultValues = {
   amount: '',

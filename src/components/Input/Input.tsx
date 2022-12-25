@@ -8,9 +8,7 @@ import Box from '@mui/material/Box';
 
 import { ExcgangeSchema } from 'utils/validations';
 
-type InputProps<T extends ElementType> = {
-  control: ExcgangeSchema;
-} & ComponentPropsWithRef<T> &
+type InputProps<T extends ElementType> = ComponentPropsWithRef<T> &
   PropsWithChildren &
   UseControllerProps<ExcgangeSchema>;
 

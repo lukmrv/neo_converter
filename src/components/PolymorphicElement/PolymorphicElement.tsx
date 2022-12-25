@@ -1,9 +1,9 @@
 import React, { PropsWithChildren, ElementType, ComponentPropsWithRef } from 'react';
 
-export type PolymorphicElementProps<T extends ElementType> = PropsWithChildren<{
+export type PolymorphicElementProps<T extends ElementType> = {
   tag?: T;
-}> &
-  ComponentPropsWithRef<T>;
+} & ComponentPropsWithRef<T> &
+  PropsWithChildren;
 
 const PolymorphicElement = <T extends ElementType>({
   tag,

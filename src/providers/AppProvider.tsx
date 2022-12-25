@@ -1,7 +1,8 @@
 import React, { PropsWithChildren } from 'react';
 
-// import { ReactQueryDevtools } from 'react-query/devtools';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import Button from '@mui/material/Button';
@@ -32,10 +33,12 @@ const AppProvider = ({ children }: PropsWithChildren) => {
       }
     >
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <QueryClientProvider client={queryClient}>
-          {/* {process.env.NODE_ENV !== 'test' && <ReactQueryDevtools />} */}
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>
-        </QueryClientProvider>
+        <Router>
+          <QueryClientProvider client={queryClient}>
+            {process.env.NODE_ENV !== 'test' && <ReactQueryDevtools />}
+            <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          </QueryClientProvider>
+        </Router>
       </ErrorBoundary>
     </React.Suspense>
   );

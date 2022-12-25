@@ -6,9 +6,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-import { StyledButton } from 'styles/styledComponents';
-import { excgangeSchema, ExcgangeSchema } from 'utils/validations';
+import { StyledButton, StyledButtonLink } from 'styles/styledComponents';
 import { Input } from 'components/Input/Input';
+import { excgangeSchema, ExcgangeSchema } from 'utils/validations';
+import { appRoutes } from 'utils/consts';
+import { useGetCurrenciesList, useGetCurrencyRates } from 'api/rates';
+
+const defaultValues = {
+  amount: '',
+};
 
 const Converter = () => {
   const {
@@ -16,9 +22,7 @@ const Converter = () => {
     handleSubmit,
     // getValues,
   } = useForm<ExcgangeSchema>({
-    defaultValues: {
-      amount: '',
-    },
+    defaultValues: defaultValues,
     mode: 'onSubmit',
     resolver: zodResolver(excgangeSchema),
   });
@@ -26,6 +30,12 @@ const Converter = () => {
   const onSubmit = (data: ExcgangeSchema) => {
     console.log('data', data);
   };
+
+  const { data, isLoading } = useGetCurrenciesList();
+  // const { data, isLoading } = useGetCurrencyRates();
+
+  console.log('isLoading', isLoading);
+  console.log('data', data);
 
   return (
     <Box
@@ -48,6 +58,10 @@ const Converter = () => {
       <StyledButton variant="contained" onClick={handleSubmit(onSubmit)}>
         Konwertuj
       </StyledButton>
+
+      <StyledButtonLink variant="contained" to={appRoutes.history}>
+        Historia
+      </StyledButtonLink>
     </Box>
   );
 };

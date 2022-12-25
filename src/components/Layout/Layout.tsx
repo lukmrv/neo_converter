@@ -8,7 +8,12 @@ const Layout = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Header />
-      <Container maxWidth="lg">{children}</Container>
+      <Container
+        maxWidth="lg"
+        sx={{ display: 'flex', alignItems: 'center', minHeight: 'calc(100vh - 128px)' }}
+      >
+        {children}
+      </Container>
       <Header />
     </>
   );

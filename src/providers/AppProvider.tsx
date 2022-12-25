@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 
-import { ReactQueryDevtools } from 'react-query/devtools';
+// import { ReactQueryDevtools } from 'react-query/devtools';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -33,7 +33,7 @@ const AppProvider = ({ children }: PropsWithChildren) => {
     >
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <QueryClientProvider client={queryClient}>
-          {process.env.NODE_ENV !== 'test' && <ReactQueryDevtools />}
+          {/* {process.env.NODE_ENV !== 'test' && <ReactQueryDevtools />} */}
           <ThemeProvider theme={theme}>{children}</ThemeProvider>
         </QueryClientProvider>
       </ErrorBoundary>

@@ -1,7 +1,22 @@
 import { createTheme, ThemeOptions } from '@mui/material';
+import { Spacing } from '@mui/system';
 
 declare module '@mui/material' {
   interface CustomThemeOverrides extends ThemeOptions {
+    palette: {
+      primary: {
+        light: string;
+        main: string;
+        dark: string;
+        contrastText: string;
+      };
+      secondary: {
+        light: string;
+        main: string;
+        dark: string;
+        contrastText: string;
+      };
+    };
     typography: {
       fontFamily: string;
       h1: {
@@ -21,6 +36,10 @@ declare module '@mui/material' {
         fontWeight: number;
       };
     };
+    spacing: Spacing;
+    shape: {
+      borderRadius: number;
+    };
   }
 }
 
@@ -28,16 +47,16 @@ export const theme = createTheme({
   // colors
   palette: {
     primary: {
-      light: '#6abf69',
-      main: '#388e3c',
-      dark: '#00600f',
-      contrastText: '#f5f5f5',
-    },
-    secondary: {
       light: '#efefef',
       main: '#bdbdbd',
       dark: '#8d8d8d',
       contrastText: '#212121',
+    },
+    secondary: {
+      light: '#6abf69',
+      main: '#388e3c',
+      dark: '#00600f',
+      contrastText: '#f5f5f5',
     },
   },
   typography: {

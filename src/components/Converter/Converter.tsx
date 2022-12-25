@@ -1,44 +1,53 @@
 import React from 'react';
 
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-import {
-  StyledPolymorphicElement,
-  StyledButtonLink,
-  StyledButton,
-  BaseElement,
-} from 'styles/styledComponents';
+import { StyledButton } from 'styles/styledComponents';
+import { excgangeSchema, ExcgangeSchema } from 'utils/validations';
+import { Input } from 'components/Input/Input';
 
 const Converter = () => {
+  const {
+    control,
+    handleSubmit,
+    // getValues,
+  } = useForm<ExcgangeSchema>({
+    defaultValues: {
+      amount: '',
+    },
+    mode: 'onSubmit',
+    resolver: zodResolver(excgangeSchema),
+  });
+
+  const onSubmit = (data: ExcgangeSchema) => {
+    console.log('data', data);
+  };
+
   return (
     <Box
-      maxWidth="lg"
       sx={{
-        minHeight: '100vh',
+        width: '600px',
+        margin: '0 auto',
+        border: '1px solid',
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: 'primary.light',
+        borderColor: 'primary.dark',
         gap: 2,
         padding: 2,
       }}
     >
-      <BaseElement component="a" href="/">
-        Im BaseElement link
-      </BaseElement>
-      <BaseElement component="div">Im BaseElement div</BaseElement>
-      <BaseElement component="button">Im BaseElement button</BaseElement>
+      <Typography variant="h2">Konwertuj</Typography>
 
-      <StyledPolymorphicElement tag="button">
-        Im StyledPolymorphicElement button
-      </StyledPolymorphicElement>
-      <StyledPolymorphicElement tag="a" href="/">
-        Im StyledPolymorphicElement link
-      </StyledPolymorphicElement>
+      <Input control={control} name="amount" label="Wpisz wartość" />
 
-      <StyledButton variant="contained">blah</StyledButton>
-      <StyledButtonLink to="/" variant="contained">
-        Im StyledButtonLink
-      </StyledButtonLink>
+      <StyledButton variant="contained" onClick={handleSubmit(onSubmit)}>
+        Konwertuj
+      </StyledButton>
     </Box>
   );
 };

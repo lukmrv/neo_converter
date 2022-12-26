@@ -8,9 +8,10 @@ import Box from '@mui/material/Box';
 
 import { StyledButton, StyledButtonLink } from 'styles/styledComponents';
 import { Input } from 'components/Input/Input';
+import { SelectAutocomplete } from 'components/SelectAutocomplete/SelectAutocomplete';
 import { excgangeSchema, ExcgangeSchema } from 'utils/validations';
 import { appRoutes } from 'utils/consts';
-import { useGetCurrenciesList } from 'api/rates';
+import { useGetCurrencyRates } from 'api/rates';
 
 const defaultValues = {
   amount: '',
@@ -20,22 +21,29 @@ const Converter = () => {
   const {
     control,
     handleSubmit,
-    // getValues,
+    formState: { errors },
+    getValues,
+    setValue,
   } = useForm<ExcgangeSchema>({
     defaultValues: defaultValues,
     mode: 'onSubmit',
     resolver: zodResolver(excgangeSchema),
   });
 
+  console.log('getValues()-----------------------', getValues(), errors);
+
   const onSubmit = (data: ExcgangeSchema) => {
+    console.log('-----------------------');
     console.log('data', data);
   };
 
-  const { data, isLoading } = useGetCurrenciesList();
-  // const { data, isLoading } = useGetCurrencyRates();
+  const { data, isLoading } = useGetCurrencyRates();
 
-  console.log('isLoading', isLoading);
-  console.log('data', data);
+  if (isLoading) {
+    return null;
+  }
+
+  const currencies = Object.entries(data?.rates || {}).map(([label, value]) => ({ label, value }));
 
   return (
     <Box
@@ -54,6 +62,23 @@ const Converter = () => {
       <Typography variant="h2">Konwertuj</Typography>
 
       <Input control={control} name="amount" label="Wpisz wartość" />
+
+      <SelectAutocomplete
+        control={control}
+        name="currency_from"
+        label="Wybierz walutę"
+        currencies={currencies}
+        defaultCurrency="EUR"
+        setValue={setValue}
+      />
+      <SelectAutocomplete
+        control={control}
+        name="currency_to"
+        label="Wybierz walutę"
+        currencies={currencies}
+        defaultCurrency="PLN"
+        setValue={setValue}
+      />
 
       <StyledButton variant="contained" onClick={handleSubmit(onSubmit)}>
         Konwertuj

@@ -3,20 +3,14 @@ import React, { ComponentPropsWithRef, ElementType, PropsWithChildren } from 're
 import { useController, UseControllerProps } from 'react-hook-form';
 
 import TextField from '@mui/material/TextField';
-import Typography, { TypographyProps } from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 import { ExcgangeSchema } from 'utils/validations';
+import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
 
 type InputProps<T extends ElementType> = ComponentPropsWithRef<T> &
   PropsWithChildren &
   UseControllerProps<ExcgangeSchema>;
-
-const ErrorMessage = ({ children, ...rest }: PropsWithChildren<TypographyProps>) => (
-  <Typography color="error" {...rest}>
-    {children}
-  </Typography>
-);
 
 const Input = <T extends ElementType>(props: InputProps<T>) => {
   const { field, fieldState } = useController(props);

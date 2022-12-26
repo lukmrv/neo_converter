@@ -1,16 +1,14 @@
 import { compile } from 'path-to-regexp';
-import { apiRoutes } from 'utils/consts';
 import { useFetch } from 'utils/reactQuery';
 
 export const pathToUrl = (path: string, params: object = {}) => compile(path)(params);
 
-const baseApiUrl = import.meta.env.VITE_API_BASE_URL;
-const appId = {
-  app_id: import.meta.env.VITE_API_KEY,
-};
-
+// links stay as it is for now. At the moment the app is client side only
 export const useGetCurrencyRates = () =>
-  useFetch<Record<string, number>>(`${baseApiUrl}${pathToUrl(apiRoutes.getRates, appId)}`);
+  useFetch<Record<string, number>>(
+    'https://openexchangerates.org/api/latest.json?app_id=62630cb2d92f4014bb7115000b94a793',
+    { staleTime: 120000 }
+  );
 
 export const useGetCurrenciesList = () =>
-  useFetch<Record<string, number>>(`${baseApiUrl}${pathToUrl(apiRoutes.getCurrencies, appId)}`);
+  useFetch<Record<string, number>>('https://openexchangerates.org/api/currencies.json');

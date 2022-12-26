@@ -15,6 +15,8 @@ import { useGetCurrencyRates } from 'api/rates';
 
 const defaultValues = {
   amount: '',
+  currency_from: null,
+  currency_to: null,
 };
 
 const Converter = () => {

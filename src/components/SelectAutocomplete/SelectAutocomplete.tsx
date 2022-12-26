@@ -1,6 +1,6 @@
-import React, { ComponentPropsWithRef, ElementType, PropsWithChildren, useEffect } from 'react';
+import React, { ComponentPropsWithRef, ElementType, PropsWithChildren } from 'react';
 
-import { useController, UseControllerProps } from 'react-hook-form';
+import { useController, UseControllerProps, useFormContext } from 'react-hook-form';
 import ReactSelect from 'react-select';
 
 import Box from '@mui/material/Box';
@@ -14,19 +14,17 @@ type SelectAutocompleteProps<T extends ElementType> = ComponentPropsWithRef<T> &
   UseControllerProps<ExcgangeSchema>;
 
 const SelectAutocomplete = <T extends ElementType>(props: SelectAutocompleteProps<T>) => {
-  const { defaultCurrency, currencies, label, setValue } = props;
+  // not nested enough to use useFormContext, but a bit cleaner than passing down the setValue / getValues
+  const { setValue, getValues } = useFormContext();
   const { field, fieldState } = useController(props);
 
-  useEffect(() => {
-    if (field.value) return;
+  const { defaultCurrency, currencies, label } = props;
 
-    setValue(
-      field.name,
-      currencies.find(
-        (currency: { label: string; value: number }) => currency.label === defaultCurrency
-      )
-    );
-  }, [currencies, field, setValue, defaultCurrency]);
+  const isCurrenciesSet = !getValues().currency_from || !getValues().currency_to;
+  const defaultCurrencyObject = currencies.find(
+    (currency: { label: string; value: number }) => currency.label === defaultCurrency
+  );
+  if (isCurrenciesSet) setValue(field.name, defaultCurrencyObject);
 
   return (
     <Box sx={{ position: 'relative' }}>

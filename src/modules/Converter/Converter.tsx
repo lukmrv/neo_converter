@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import Typography from '@mui/material/Typography';
@@ -18,76 +18,65 @@ const defaultValues = {
 };
 
 const Converter = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    getValues,
-    setValue,
-  } = useForm<ExcgangeSchema>({
+  const methods = useForm({
     defaultValues: defaultValues,
     mode: 'onSubmit',
     resolver: zodResolver(excgangeSchema),
   });
-
-  console.log('getValues()-----------------------', getValues(), errors);
+  const { control, handleSubmit } = methods;
 
   const onSubmit = (data: ExcgangeSchema) => {
-    console.log('-----------------------');
-    console.log('data', data);
+    console.log('data-----', data);
   };
 
-  const { data, isLoading } = useGetCurrencyRates();
+  const { data, isLoading } = useGetCurrencyRates({ staleTime: 1000 /*ms*/ * 60 /*s*/ * 30 /*m*/ });
 
-  if (isLoading) {
+  if (!data || isLoading) {
     return null;
   }
 
-  const currencies = Object.entries(data?.rates || {}).map(([label, value]) => ({ label, value }));
+  const currencies = Object.entries(data.rates || {}).map(([label, value]) => ({ label, value }));
 
   return (
-    <Box
-      sx={{
-        width: '600px',
-        margin: '0 auto',
-        border: '1px solid',
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: 'primary.light',
-        borderColor: 'primary.dark',
-        gap: 2,
-        padding: 2,
-      }}
-    >
-      <Typography variant="h2">Konwertuj</Typography>
+    <FormProvider {...methods}>
+      <Box
+        sx={{
+          width: '600px',
+          margin: '0 auto',
+          border: '1px solid',
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: 'primary.light',
+          borderColor: 'primary.dark',
+          gap: 2,
+          padding: 2,
+        }}
+      >
+        <Typography variant="h2">Konwertuj</Typography>
 
-      <Input control={control} name="amount" label="Wpisz wartość" />
+        <Input control={control} name="amount" label="Wpisz wartość" />
+        <SelectAutocomplete
+          control={control}
+          name="currency_from"
+          currencies={currencies}
+          defaultCurrency="EUR"
+        />
+        <SelectAutocomplete
+          control={control}
+          name="currency_to"
+          currencies={currencies}
+          defaultCurrency="PLN"
+        />
 
-      <SelectAutocomplete
-        control={control}
-        name="currency_from"
-        label="Wybierz walutę"
-        currencies={currencies}
-        defaultCurrency="EUR"
-        setValue={setValue}
-      />
-      <SelectAutocomplete
-        control={control}
-        name="currency_to"
-        label="Wybierz walutę"
-        currencies={currencies}
-        defaultCurrency="PLN"
-        setValue={setValue}
-      />
+        <StyledButton variant="contained" onClick={handleSubmit(onSubmit)}>
+          Konwertuj
+        </StyledButton>
 
-      <StyledButton variant="contained" onClick={handleSubmit(onSubmit)}>
-        Konwertuj
-      </StyledButton>
-
-      <StyledButtonLink variant="contained" to={appRoutes.history}>
-        Historia
-      </StyledButtonLink>
-    </Box>
+        <StyledButtonLink variant="contained" to={appRoutes.history}>
+          Historia
+        </StyledButtonLink>
+      </Box>
+    </FormProvider>
   );
 };
 

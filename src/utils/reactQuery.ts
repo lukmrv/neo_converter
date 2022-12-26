@@ -21,7 +21,7 @@ const fetchWrapper = async (url: string) => {
   }
 };
 
-// using fetch instead of axios for now (issues with cors from client side requests)
+// using fetch instead of axios for now (axios causing issues with cors from client side requests)
 export const fetcher = <T>({
   queryKey,
 }: Optional<QueryFunctionContext<QueryKeyType>, 'meta'>): Promise<T> => {

@@ -7,18 +7,17 @@ const createTimeString = (timestamp: number): string => {
   let hours = date.getHours();
   let minutes = date.getMinutes();
 
-  const setAndappendZero = (appendTo: any) => {
-    return appendTo < 10 ? (appendTo = `0${appendTo}`) : appendTo;
-  };
+  const setAndAppendZero = (appendTo: any) =>
+    appendTo < 10 ? (appendTo = `0${appendTo}`) : appendTo;
 
-  month = setAndappendZero(month);
-  day = setAndappendZero(day);
-  hours = setAndappendZero(hours);
-  minutes = setAndappendZero(minutes);
+  month = setAndAppendZero(month);
+  day = setAndAppendZero(day);
+  hours = setAndAppendZero(hours);
+  minutes = setAndAppendZero(minutes);
 
   const timeString = `${day}/${month}/${year} ${hours}:${minutes}`;
 
   return timeString;
 };
 
-export default createTimeString;
+export { createTimeString };

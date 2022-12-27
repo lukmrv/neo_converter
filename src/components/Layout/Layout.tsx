@@ -10,11 +10,11 @@ const Layout = ({ children }: PropsWithChildren) => {
       <Header />
       <Container
         maxWidth="lg"
-        sx={{ display: 'flex', alignItems: 'center', minHeight: 'calc(100vh - 128px)' }}
+        sx={{ display: 'flex', alignItems: 'center', minHeight: 'calc(100vh - 64px)' }}
       >
         {children}
       </Container>
-      <Header />
+      {/* <Footer /> */}
     </>
   );
 };

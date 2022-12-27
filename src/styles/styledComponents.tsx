@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { styled, CustomThemeOverrides } from '@mui/material';
 import Button, { ButtonProps } from '@mui/material/Button';
+import ButtonBase, { ButtonBaseProps } from '@mui/material/ButtonBase';
 
 // eslint-disable-next-line no-restricted-imports
 import {
@@ -51,10 +52,10 @@ export const BaseElement = styled(
     component,
     children,
     ...rest
-  }: ButtonProps & ComponentPropsWithRef<T>) => (
-    <Button component={component} {...rest}>
+  }: ButtonBaseProps & ComponentPropsWithRef<T>) => (
+    <ButtonBase component={component} {...rest}>
       {children}
-    </Button>
+    </ButtonBase>
   )
 )(({ theme }) => buttonStyles(theme));
 

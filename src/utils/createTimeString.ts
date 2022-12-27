@@ -1,4 +1,4 @@
-const createTimeString = (timestamp: number): string => {
+export const createTimeString = (timestamp: number): string => {
   const date = new Date(timestamp);
 
   const year = date.getFullYear();
@@ -19,5 +19,3 @@ const createTimeString = (timestamp: number): string => {
 
   return timeString;
 };
-
-export { createTimeString };

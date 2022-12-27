@@ -47,16 +47,16 @@ export const theme = createTheme({
   // colors
   palette: {
     primary: {
-      light: '#6abf69',
-      main: '#388e3c',
-      dark: '#00600f',
-      contrastText: '#f5f5f5',
-    },
-    secondary: {
       light: '#efefef',
       main: '#bdbdbd',
       dark: '#8d8d8d',
       contrastText: '#212121',
+    },
+    secondary: {
+      light: '#6abf69',
+      main: '#388e3c',
+      dark: '#00600f',
+      contrastText: '#f5f5f5',
     },
   },
   typography: {
@@ -80,7 +80,7 @@ export const theme = createTheme({
   },
   // borders
   shape: {
-    borderRadius: 8,
+    borderRadius: 4,
   },
   // style overrides
   components: {

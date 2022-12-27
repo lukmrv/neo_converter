@@ -18,7 +18,7 @@ const Input = <T extends ElementType>(props: InputProps<T>) => {
   return (
     <Box sx={{ position: 'relative' }}>
       {fieldState.error && (
-        <ErrorMessage sx={{ position: 'absolute', right: '0', top: '-25px' }}>
+        <ErrorMessage sx={{ fontSize: '0.75rem', position: 'absolute', right: '0', top: '-20px' }}>
           {fieldState.error.message}
         </ErrorMessage>
       )}

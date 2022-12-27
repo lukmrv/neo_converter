@@ -19,6 +19,7 @@ declare module '@mui/material' {
     };
     typography: {
       fontFamily: string;
+      fontSize: number;
       h1: {
         fontSize: string;
         fontWeight: number;
@@ -61,6 +62,7 @@ export const theme = createTheme({
   },
   typography: {
     fontFamily: 'Roboto',
+    fontSize: 16,
     h1: {
       fontSize: '2.5rem',
       fontWeight: 500,

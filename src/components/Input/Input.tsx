@@ -28,7 +28,7 @@ const Input = <T extends ElementType>(props: InputProps<T>) => {
         label={props.label}
         error={Boolean(fieldState.error)}
         inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-        sx={{ marginTop: '0px', width: '100%' }}
+        sx={{ marginTop: '0px', width: '100%', fontSize: (theme) => theme.typography.fontSize }}
       />
     </Box>
   );

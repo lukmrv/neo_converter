@@ -37,7 +37,7 @@ const defaultValues = {
 const ReverseCurrenciesButton = ({ reverseCurrencies }: { reverseCurrencies: () => void }) => (
   <BaseElement focusRipple onClick={reverseCurrencies}>
     <ChangeCircleOutlinedIcon
-      fontSize="large"
+      fontSize="medium"
       sx={{
         cursor: 'pointer',
         '&:hover': {
@@ -97,77 +97,89 @@ const Converter = () => {
 
   return (
     <FormProvider {...methods}>
-      <form style={{ margin: '0 auto' }} onSubmit={handleSubmit(onSubmit)}>
+      <Box
+        sx={{
+          display: 'flex',
+          width: '100%',
+          justifyContent: 'center',
+          paddgin: 2,
+        }}
+      >
         <Box
           sx={{
-            width: '500px',
             border: (theme) => `1px solid ${theme.palette.primary.main}`,
             borderRadius: (theme) => theme.shape.borderRadius,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 2,
-            padding: 6,
+            minWidth: '300px',
+            width: '500px',
+            maxWidth: '100%',
+            '& form': {
+              gap: 2,
+              padding: 6,
+              display: 'flex',
+              flexDirection: 'column',
+            },
           }}
         >
-          <Box
-            sx={{
-              paddingBottom: 3,
-              display: 'flex',
-              justifyContent: 'center',
-              gap: 2,
-              fontSize: '1.5rem',
-              fontWeight: '700',
-              color: (theme) => theme.palette.primary.dark,
-            }}
-          >
-            {conversionResult.result ? (
-              <>
-                <Typography variant="inherit">{conversionResult.amount}</Typography>
-                <Typography variant="inherit">{conversionResult.currency_from}</Typography>
-                <Typography variant="inherit">=</Typography>
-                <Typography variant="inherit">{conversionResult.result}</Typography>
-                <Typography variant="inherit">{conversionResult.currency_to}</Typography>
-              </>
-            ) : (
-              <Typography variant="inherit">Konwertuj</Typography>
-            )}
-          </Box>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box
+              sx={{
+                paddingBottom: 3,
+                display: 'flex',
+                justifyContent: 'center',
+                gap: 2,
+                fontSize: '1.5rem',
+                fontWeight: '700',
+                color: (theme) => theme.palette.primary.dark,
+              }}
+            >
+              {conversionResult.result ? (
+                <>
+                  <Typography variant="inherit">{conversionResult.amount}</Typography>
+                  <Typography variant="inherit">{conversionResult.currency_from}</Typography>
+                  <Typography variant="inherit">=</Typography>
+                  <Typography variant="inherit">{conversionResult.result}</Typography>
+                  <Typography variant="inherit">{conversionResult.currency_to}</Typography>
+                </>
+              ) : (
+                <Typography variant="inherit">Konwertuj</Typography>
+              )}
+            </Box>
 
-          <Input control={control} name="amount" label="Wartość" />
+            <Input control={control} name="amount" label="Wartość" />
 
-          <Box
-            sx={{
-              width: '100%',
-              display: 'grid',
-              gridTemplateColumns: '1fr 0.25fr 1fr',
-              gap: 2,
-              justifyContent: 'space-between',
-            }}
-          >
-            <SelectAutocomplete
-              control={control}
-              name="currency_from"
-              currencies={currencies}
-              defaultCurrency={defaultCurrencies.currency_from}
-            />
-            <ReverseCurrenciesButton reverseCurrencies={reverseCurrencies} />
-            <SelectAutocomplete
-              control={control}
-              name="currency_to"
-              currencies={currencies}
-              defaultCurrency={defaultCurrencies.currency_to}
-            />
-          </Box>
+            <Box
+              sx={{
+                width: '100%',
+                display: 'grid',
+                gridTemplateColumns: '1fr 50px 1fr',
+                justifyContent: 'space-between',
+              }}
+            >
+              <SelectAutocomplete
+                control={control}
+                name="currency_from"
+                currencies={currencies}
+                defaultCurrency={defaultCurrencies.currency_from}
+              />
+              <ReverseCurrenciesButton reverseCurrencies={reverseCurrencies} />
+              <SelectAutocomplete
+                control={control}
+                name="currency_to"
+                currencies={currencies}
+                defaultCurrency={defaultCurrencies.currency_to}
+              />
+            </Box>
 
-          <StyledButton variant="contained" type="submit">
-            Konwertuj
-          </StyledButton>
+            <StyledButton variant="contained" type="submit">
+              Konwertuj
+            </StyledButton>
 
-          {/* <StyledButtonLink variant="contained" to={appRoutes.history}>
+            {/* <StyledButtonLink variant="contained" to={appRoutes.history}>
           Historia
         </StyledButtonLink> */}
+          </form>
         </Box>
-      </form>
+      </Box>
     </FormProvider>
   );
 };

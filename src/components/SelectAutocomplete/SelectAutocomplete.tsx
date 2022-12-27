@@ -3,7 +3,6 @@ import React, { ComponentPropsWithRef, ElementType, PropsWithChildren, useEffect
 import { useController, UseControllerProps, useFormContext } from 'react-hook-form';
 import ReactSelect from 'react-select';
 
-import Box from '@mui/material/Box';
 import useTheme from '@mui/material/styles/useTheme';
 
 import { ExcgangeSchema } from 'utils/validations';

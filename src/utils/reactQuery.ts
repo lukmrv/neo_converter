@@ -12,7 +12,6 @@ const fetchWrapper = async (url: string) => {
     if (!response.ok) {
       throw `${response?.status} ${response.statusText}`;
     }
-    console.log('fetched');
     const rates = await response.json();
     return rates;
   } catch (error) {

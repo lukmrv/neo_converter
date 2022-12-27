@@ -48,15 +48,13 @@ const Converter = () => {
           border: '1px solid',
           display: 'flex',
           flexDirection: 'column',
-          backgroundColor: 'primary.light',
-          borderColor: 'primary.dark',
           gap: 2,
           padding: 2,
         }}
       >
         <Typography variant="h2">Konwertuj</Typography>
 
-        <Input control={control} name="amount" label="Wpisz wartość" />
+        <Input control={control} name="amount" label="Wartość" />
         <SelectAutocomplete
           control={control}
           name="currency_from"

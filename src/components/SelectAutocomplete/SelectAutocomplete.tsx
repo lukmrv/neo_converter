@@ -4,9 +4,8 @@ import { useController, UseControllerProps, useFormContext } from 'react-hook-fo
 import ReactSelect from 'react-select';
 
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import useTheme from '@mui/material/styles/useTheme';
 
-import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
 import { ExcgangeSchema } from 'utils/validations';
 
 type SelectAutocompleteProps<T extends ElementType> = ComponentPropsWithRef<T> &
@@ -14,11 +13,12 @@ type SelectAutocompleteProps<T extends ElementType> = ComponentPropsWithRef<T> &
   UseControllerProps<ExcgangeSchema>;
 
 const SelectAutocomplete = <T extends ElementType>(props: SelectAutocompleteProps<T>) => {
+  const theme = useTheme();
   // not nested enough to use useFormContext, but a bit cleaner than passing down the setValue / getValues
   const { setValue, getValues } = useFormContext();
-  const { field, fieldState } = useController(props);
+  const { field } = useController(props);
 
-  const { defaultCurrency, currencies, label } = props;
+  const { defaultCurrency, currencies } = props;
 
   const isCurrenciesSet = !getValues().currency_from || !getValues().currency_to;
   const defaultCurrencyObject = currencies.find(
@@ -28,16 +28,49 @@ const SelectAutocomplete = <T extends ElementType>(props: SelectAutocompleteProp
 
   return (
     <Box sx={{ position: 'relative' }}>
-      {fieldState.error && (
-        <ErrorMessage sx={{ position: 'absolute', right: '0', top: '-28px' }}>
-          {fieldState.error.message}
-        </ErrorMessage>
-      )}
-
-      <Typography variant="h6" sx={{ margin: '30px 0' }}>
-        {label}
-      </Typography>
-      <ReactSelect options={currencies} {...field} />
+      <ReactSelect
+        {...field}
+        options={currencies}
+        styles={{
+          input: (styles) => ({ ...styles, padding: '0px', margin: '0px', fontSize: '1rem' }),
+          valueContainer: (styles) => ({
+            ...styles,
+            padding: '0px 14px',
+          }),
+          control: (styles) => ({
+            ...styles,
+            fontFamily: theme.typography.fontFamily,
+            borderRadius: theme.shape.borderRadius,
+            height: '56px',
+            borderColor: theme.palette.primary.main,
+            boxShadow: 'none',
+            '&:hover': {
+              borderColor: theme.palette.primary.dark,
+            },
+            '&:focus': {
+              borderColor: theme.palette.primary.main,
+            },
+          }),
+          dropdownIndicator: (styles) => ({
+            ...styles,
+            color: theme.palette.primary.main,
+          }),
+          indicatorSeparator: (styles) => ({
+            ...styles,
+            backgroundColor: theme.palette.primary.main,
+            opacity: '0.4',
+          }),
+        }}
+        theme={(reactSelectTheme) => ({
+          ...reactSelectTheme,
+          borderRadius: 0,
+          colors: {
+            ...reactSelectTheme.colors,
+            primary25: theme.palette.primary.main,
+            primary: theme.palette.primary.dark,
+          },
+        })}
+      />
     </Box>
   );
 };

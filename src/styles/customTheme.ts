@@ -47,16 +47,16 @@ export const theme = createTheme({
   // colors
   palette: {
     primary: {
-      light: '#efefef',
-      main: '#bdbdbd',
-      dark: '#8d8d8d',
-      contrastText: '#212121',
-    },
-    secondary: {
       light: '#6abf69',
       main: '#388e3c',
       dark: '#00600f',
       contrastText: '#f5f5f5',
+    },
+    secondary: {
+      light: '#efefef',
+      main: '#bdbdbd',
+      dark: '#8d8d8d',
+      contrastText: '#212121',
     },
   },
   typography: {
@@ -81,5 +81,25 @@ export const theme = createTheme({
   // borders
   shape: {
     borderRadius: 8,
+  },
+  // style overrides
+  components: {
+    // Name of the component
+    MuiOutlinedInput: {
+      styleOverrides: {
+        // Name of the slot
+        root: ({ theme }) => ({
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: theme.palette.primary.dark,
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: theme.palette.primary.dark,
+          },
+          '.MuiOutlinedInput-notchedOutline': {
+            borderColor: theme.palette.primary.main,
+          },
+        }),
+      },
+    },
   },
 });

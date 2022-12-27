@@ -8,6 +8,7 @@ export const navigationLinks = [
   { description: 'History', link: appRoutes.history },
 ];
 
+// not in use for now
 export const apiRoutes = {
   getRates: '/api/latest.json/:app_id',
   getCurrencies: '/api/currencies.json',

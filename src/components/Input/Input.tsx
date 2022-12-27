@@ -18,17 +18,17 @@ const Input = <T extends ElementType>(props: InputProps<T>) => {
   return (
     <Box sx={{ position: 'relative' }}>
       {fieldState.error && (
-        <ErrorMessage sx={{ position: 'absolute', right: '0', top: '0px' }}>
+        <ErrorMessage sx={{ position: 'absolute', right: '0', top: '-25px' }}>
           {fieldState.error.message}
         </ErrorMessage>
       )}
 
       <TextField
+        {...field}
         label={props.label}
         error={Boolean(fieldState.error)}
         inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-        sx={{ margin: '30px 0', width: '100%' }}
-        {...field}
+        sx={{ marginTop: '0px', width: '100%' }}
       />
     </Box>
   );

@@ -2,7 +2,7 @@ import React, { ComponentPropsWithRef, ElementType } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { styled, CustomThemeOverrides } from '@mui/material';
+import { styled, Theme } from '@mui/material';
 import Button, { ButtonProps } from '@mui/material/Button';
 import ButtonBase, { ButtonBaseProps } from '@mui/material/ButtonBase';
 
@@ -15,11 +15,10 @@ import {
 // =========SHARED STYLES==============
 // CustomThemeOverrides extended by ThemeOptions
 
-const buttonStyles = (theme: CustomThemeOverrides) => ({
+const buttonStyles = (theme: Theme) => ({
   padding: theme.spacing(1, 2),
   borderRadius: theme.shape.borderRadius,
   color: theme.palette.primary.contrastText,
-  fontSize: theme.typography.button.fontSize,
   fontWeight: theme.typography.button.fontWeight,
 });
 
@@ -33,7 +32,7 @@ export const StyledButton = styled(
   )
 )(({ theme }) => buttonStyles(theme));
 
-// ===================INTERNAL LINK=====================
+// ===================INTERNAL LINKS====================
 // React Router Link which looks like MUI Button
 
 export const StyledButtonLink = styled(
@@ -41,6 +40,14 @@ export const StyledButtonLink = styled(
     <Button component={Link} {...rest}>
       {children}
     </Button>
+  )
+)(({ theme }) => buttonStyles(theme));
+
+export const StyledBaseLink = styled(
+  <T extends ElementType>({ children, ...rest }: ButtonBaseProps & ComponentPropsWithRef<T>) => (
+    <ButtonBase component={Link} {...rest}>
+      {children}
+    </ButtonBase>
   )
 )(({ theme }) => buttonStyles(theme));
 
@@ -96,7 +103,6 @@ export const StyledPolymorphicElement = styled(
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.primary.contrastText,
   padding: theme.spacing(1, 2),
-  fontSize: theme.typography.button.fontSize,
   fontWeight: theme.typography.button.fontWeight,
   transition: theme.transitions.create(['background-color', 'box-shadow', 'border'], {
     duration: theme.transitions.duration.short,

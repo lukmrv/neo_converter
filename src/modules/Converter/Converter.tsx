@@ -9,7 +9,6 @@ import ChangeCircleOutlinedIcon from '@mui/icons-material/ChangeCircleOutlined';
 import { keyframes } from '@mui/system';
 
 import { StyledButton, BaseElement } from 'styles/styledComponents';
-// import { appRoutes } from 'utils/consts';
 import { Input } from 'components/Input/Input';
 import { SelectAutocomplete } from 'components/SelectAutocomplete/SelectAutocomplete';
 import { excgangeSchema, ExcgangeSchema } from 'utils/validations';
@@ -34,8 +33,8 @@ const defaultValues = {
   currency_to: null,
 };
 
-const ReverseCurrenciesButton = ({ reverseCurrencies }: { reverseCurrencies: () => void }) => (
-  <BaseElement focusRipple onClick={reverseCurrencies}>
+const ReverseCurrenciesButton = ({ action }: { action: () => void }) => (
+  <BaseElement focusRipple onClick={action}>
     <ChangeCircleOutlinedIcon
       fontSize="medium"
       sx={{
@@ -51,6 +50,13 @@ const ReverseCurrenciesButton = ({ reverseCurrencies }: { reverseCurrencies: () 
 );
 
 const Converter = () => {
+  const methods = useForm({
+    defaultValues,
+    mode: 'onSubmit',
+    resolver: zodResolver(excgangeSchema),
+  });
+  const { control, handleSubmit, setValue, getValues } = methods;
+
   const [defaultCurrencies] = useState({ currency_from: 'EUR', currency_to: 'PLN' });
   const [conversionResult, setConversionResult] = useState({
     amount: '',
@@ -59,12 +65,11 @@ const Converter = () => {
     currency_to: defaultCurrencies.currency_to,
   });
 
-  const methods = useForm({
-    defaultValues: defaultValues,
-    mode: 'onSubmit',
-    resolver: zodResolver(excgangeSchema),
-  });
-  const { control, handleSubmit, setValue, getValues } = methods;
+  const { data, isLoading } = useGetCurrencyRates({ staleTime: 1000 /*ms*/ * 60 /*s*/ * 30 /*m*/ });
+
+  if (!data || isLoading) {
+    return null;
+  }
 
   const onSubmit = (data: ExcgangeSchema) => {
     const { currency_from, currency_to } = data;
@@ -87,12 +92,6 @@ const Converter = () => {
     setValue('currency_to', currency_from);
   };
 
-  const { data, isLoading } = useGetCurrencyRates({ staleTime: 1000 /*ms*/ * 60 /*s*/ * 30 /*m*/ });
-
-  if (!data || isLoading) {
-    return null;
-  }
-
   const currencies = Object.entries(data.rates || {}).map(([label, value]) => ({ label, value }));
 
   return (
@@ -102,7 +101,6 @@ const Converter = () => {
           display: 'flex',
           width: '100%',
           justifyContent: 'center',
-          paddgin: 2,
         }}
       >
         <Box
@@ -123,25 +121,29 @@ const Converter = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box
               sx={{
-                paddingBottom: 3,
                 display: 'flex',
                 justifyContent: 'center',
-                gap: 2,
-                fontSize: '1.5rem',
-                fontWeight: '700',
-                color: (theme) => theme.palette.primary.dark,
+                color: 'primary.main',
+                gap: 1,
+                paddingBottom: 3,
               }}
             >
               {conversionResult.result ? (
                 <>
-                  <Typography variant="inherit">{conversionResult.amount}</Typography>
-                  <Typography variant="inherit">{conversionResult.currency_from}</Typography>
-                  <Typography variant="inherit">=</Typography>
-                  <Typography variant="inherit">{conversionResult.result}</Typography>
-                  <Typography variant="inherit">{conversionResult.currency_to}</Typography>
+                  <Typography variant="h4" sx={{ fontWeight: 700, color: 'primary.dark' }}>
+                    {conversionResult.amount}
+                  </Typography>
+                  <Typography variant="h4">{conversionResult.currency_from}</Typography>
+                  <Typography variant="h4">=</Typography>
+                  <Typography variant="h4" sx={{ fontWeight: 700, color: 'primary.dark' }}>
+                    {conversionResult.result}
+                  </Typography>
+                  <Typography variant="h4">{conversionResult.currency_to}</Typography>
                 </>
               ) : (
-                <Typography variant="inherit">Konwertuj</Typography>
+                <Typography variant="h4" sx={{ fontWeight: 700, color: 'primary.dark' }}>
+                  Konwertuj
+                </Typography>
               )}
             </Box>
 
@@ -161,7 +163,9 @@ const Converter = () => {
                 currencies={currencies}
                 defaultCurrency={defaultCurrencies.currency_from}
               />
-              <ReverseCurrenciesButton reverseCurrencies={reverseCurrencies} />
+
+              <ReverseCurrenciesButton action={reverseCurrencies} />
+
               <SelectAutocomplete
                 control={control}
                 name="currency_to"

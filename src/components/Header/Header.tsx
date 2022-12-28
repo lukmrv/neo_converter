@@ -9,10 +9,9 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
 
 import { navigationLinks } from 'utils/consts';
+import { StyledBaseLink } from 'styles/styledComponents';
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -61,28 +60,15 @@ const Header = () => {
             >
               {navigationLinks.map((page) => (
                 <MenuItem key={page.description} onClick={handleCloseNavMenu}>
-                  <Link style={{ textDecoration: 'none', color: 'blue' }} to={page.link}>
+                  <StyledBaseLink sx={{ color: 'primary.dark' }} to={page.link}>
                     {page.description}
-                  </Link>
+                  </StyledBaseLink>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {navigationLinks.map((page) => (
-              <Typography
-                component="div"
-                key={page.description}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                <Link style={{ textDecoration: 'none', color: 'blue' }} to={page.link}>
-                  {page.description}
-                </Link>
-              </Typography>
-            ))}
-          </Box>
+          {/* <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box> */}
         </Toolbar>
       </Container>
     </AppBar>

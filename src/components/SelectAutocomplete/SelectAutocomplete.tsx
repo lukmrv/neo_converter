@@ -12,22 +12,6 @@ type SelectAutocompleteProps<T extends ElementType> = ComponentPropsWithRef<T> &
   PropsWithChildren &
   UseControllerProps<ExcgangeSchema>;
 
-const reactSelectCustomTheme = ({
-  muiTheme,
-  reactSelectTheme,
-}: {
-  muiTheme: Theme;
-  reactSelectTheme: any;
-}): any => ({
-  ...reactSelectTheme,
-  borderRadius: 0,
-  colors: {
-    ...reactSelectTheme.colors,
-    primary25: muiTheme.palette.primary.main,
-    primary: muiTheme.palette.primary.dark,
-  },
-});
-
 const reactSelectCustomStyles = (muiTheme: Theme): StylesConfig => ({
   control: (styles) => ({
     ...styles,
@@ -57,7 +41,7 @@ const reactSelectCustomStyles = (muiTheme: Theme): StylesConfig => ({
     ...styles,
     display: 'flex',
     justifyContent: 'flex-start',
-    fontSize: muiTheme.typography.fontSize,
+    fontSize: muiTheme.typography.body1.fontSize,
   }),
   indicatorSeparator: (styles) => ({
     ...styles,
@@ -94,7 +78,13 @@ const SelectAutocomplete = <T extends ElementType>(props: SelectAutocompleteProp
       options={currencies}
       styles={reactSelectCustomStyles(theme)}
       theme={(reactSelectTheme) => ({
-        ...reactSelectCustomTheme({ muiTheme: theme, reactSelectTheme }),
+        ...reactSelectTheme,
+        borderRadius: 0,
+        colors: {
+          ...reactSelectTheme.colors,
+          primary25: theme.palette.primary.main,
+          primary: theme.palette.primary.dark,
+        },
       })}
     />
   );
